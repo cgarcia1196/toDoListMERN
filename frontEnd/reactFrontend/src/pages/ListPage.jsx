@@ -83,7 +83,6 @@ const ListPage = () => {
                     }));
                   }}
                 />
-                <span>itemID:{item.id}</span>
                 
                 
                 <button onClick={() => handleDelete(item._id)}>🗑️</button>
