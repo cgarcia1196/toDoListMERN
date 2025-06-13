@@ -40,7 +40,8 @@ export const editList =  async (req, res) => {
         if(!updatedList) return res.status(404).json({message:"Lists not found"})
         res.status(200).json(updatedList)
     }catch(error){
-        console.error("Internal server error on editListItem")
+        const {title, items} = req.body;
+        console.error(`Internal server error on editListItem id: ${req.params.id} title: ${title} items: ${items}`)
         res.status(500).json({message:"Internal server error"})
     }
 }

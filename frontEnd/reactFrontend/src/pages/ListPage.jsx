@@ -17,7 +17,7 @@ const ListPage = () => {
     const fetchList = async () => {
       setLoading(true)
       try {
-        const res = await axios.get(`${backendURL}${listId}`)
+        const res = await axios.get(`${backendURL}/${listId}`)
         setList(res.data)
       } catch (error) {
         console.log("Error: could not get list")
@@ -28,32 +28,57 @@ const ListPage = () => {
     fetchList()
   }, [listId])
 
-  const handleDelete = (id) => {
-    setList(prevList => ({
-      ...prevList, items: prevList.items.filter(item => item._id !== id)
-    }))
+  const handleDelete = async (id) => {
+    const updatedList = {
+      ...list, items:[...list.items.filter(item => item._id !== id)]
+    }
+
+    try {
+      await axios.put(`${backendURL}/${listId}`, updatedList)
+      .then(res => {
+         setList(res.data)
+      })
+    } catch (error) {
+      console.log("Could not delete item to database")
+    }
   }
-  const handleAddItem = () =>{
-    setList((prevList) => ({
-        ...prevList, items: [...prevList.items, {}]
-    }))
+  const saveList = async() =>{
+    try {
+      await axios.put(`${backendURL}/${listId}`, list)
+    } catch (error) {
+      console.log("Could not save list to database")
+    }
+
+  }
+  const handleAddItem = async () =>{
+    const newItem = {
+      content: "",
+      checked: false,
+    }
+    const updatedList = {
+      ...list, items:[...list.items, newItem]
+    }
+    try {
+      await axios.put(`${backendURL}/${listId}`, updatedList)
+      .then(res => {
+         setList(res.data)
+      })
+    } catch (error) {
+      console.log("Could not add item to database")
+    }
+
   }
 
   const handleHome = async () => {
-    try {
-      await axios.put(backendURL+list._id, list)
-      navigate("/")
-    } catch (error) {
-      console.log("Could not save to database")
-    }
-  };
+    navigate("/")
+  }
 
   return (
     <div className="list">
       <h2>List Page</h2>
        <button onClick={handleHome}>Home</button>
       {loading && <div>Loading list...</div>}
-      {list && (
+      {list && Array.isArray(list.items) &&(
         <>
             <input className="titleInputBox"
                   value={list.title}
@@ -62,6 +87,7 @@ const ListPage = () => {
                       ...prevList, title:e.target.value
                     }));
                   }}
+                  onBlur={saveList}
             />
           <ul>
             {list.items.map(item => (
@@ -74,7 +100,7 @@ const ListPage = () => {
                     }));
                   }}
                 />
-                <input className="inputBox"
+                <input className={`inputBox ${item.checked ? 'checked' : ''}`}
                   value={item.content}
                   onChange={e => {
                     setList(prevList => ({
