@@ -1,0 +1,29 @@
+.list {
+  background-color: #e4fd68;
+  padding: 100px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.inputBox{
+    background-Color:  transparent;
+    border: none;
+    outline: none;
+    
+}
+.titleInputBox{
+    background-Color:  #f5f6ef;
+    border: none;
+    outline: none;
+    font-weight: bold;
+    font-size: x-large;
+}
+ul, li{
+    list-style-type: none;
+}
+
+.link{
+    text-decoration: none;
+    color:inherit;
+}
