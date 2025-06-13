@@ -5,7 +5,7 @@ import axios from "axios"
 import '../css/ListPage.css' 
 
 const ListPage = () => {
-  const backendURL = "http://localhost:5001/api/lists/"
+  const backendURL = import.meta.env.mode === "development" ? "http://localhost:5001/api/lists" : "/api/lists"
   const [list, setList] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -83,6 +83,8 @@ const ListPage = () => {
                     }));
                   }}
                 />
+                <span>itemID:{item.id}</span>
+                
                 
                 <button onClick={() => handleDelete(item._id)}>🗑️</button>
               </li>

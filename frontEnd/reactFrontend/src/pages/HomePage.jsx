@@ -9,7 +9,7 @@ const HomePage = () => {
 
     const [lists,setLists] = useState([])
     const [loading, setLoading] = useState(false)
-    const backendULR = "http://localhost:5001/api/lists"
+    const backendULR = import.meta.env.mode === "development" ? "http://localhost:5001/api/lists" : "/api/lists"
     const navigate = useNavigate()
 
     useEffect(()=>{
