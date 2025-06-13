@@ -108,6 +108,11 @@ const ListPage = () => {
                       items: prevList.items.map(it => it._id === item._id ? { ...it, content: e.target.value } : it)
                     }));
                   }}
+                  onBlur={()=>{
+                    setTimeout(()=>{
+                      saveList()
+                    }, 0)
+                  }}
                 />
                 
                 
